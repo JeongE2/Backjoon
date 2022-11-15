@@ -1,12 +1,11 @@
-package SWEA.P1859;
+package SWEA;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Solution {
-    public static void main(String[] args) throws FileNotFoundException {
-        System.setIn(new FileInputStream("src/SWEA/P1859/input.txt"));
+    public static void main(String[] args) throws Exception {
+        System.setIn(new FileInputStream("src/SWEA/input.txt"));
         Scanner sc = new Scanner(System.in);
         int T;
         T = sc.nextInt();
@@ -33,41 +32,51 @@ public class Solution {
         }
 
         while(change!=0){
-            int max=-1, maxIdx=-1;
+            int max=-1, maxCnt=0;
+            int[] maxIdx = new int[nums.length];
             for (int i = 0; i < num.length(); i++) {
                 if(check[i] == true) continue;
                 if(max< nums[i]){
                     max = nums[i];
-                    maxIdx = i;
+                    maxCnt = 0;
+                    maxIdx[maxCnt++] = i;
+                } else if(max==nums[i]){
+                    maxIdx[maxCnt++] = i;
                 }
             }
-            int changeIdx = 7;
-            for (int i = 0; i < num.length(); i++) {
-                if(check[i] == false) {
-                    changeIdx = i;
-                    break;
+            if(maxCnt==1){
+                int changeIdx = 7;
+                for (int i = 0; i < num.length(); i++) {
+                    if(check[i] == false) {
+                        changeIdx = i;
+                        break;
+                    }
                 }
-            }
+                if(changeIdx<maxIdx[0]){
+                    change(maxIdx[0],changeIdx, nums);
+                    check[changeIdx] = true;
+                } else if(maxIdx[0] == nums.length-1){
+                    //같은 수 두개 찾아보기
+                    int[] same = findSame(nums);
+                    if(same[0]==-1){
+                        change(maxIdx[0], maxIdx[0]-1, nums);
+                        check[maxIdx[0]-1] = false;
+                    }
+                    else{
+                        change(same[0],same[1], nums);
+                    }
 
-            if(changeIdx<maxIdx){
-                change(maxIdx,changeIdx, nums);
-                check[changeIdx] = true;
-            } else if(maxIdx == nums.length-1){
-                //같은 수 두개 찾아보기
-                int[] same = findSame(nums);
-                if(same[0]==-1){
-                    change(maxIdx, maxIdx-1, nums);
-                    check[maxIdx-1] = false;
+                } else{
+                    check[maxIdx[0]] = true;
+                    change++;
                 }
-                else{
-                    change(same[0],same[1], nums);
-                }
-
+                change--;
             } else{
-                check[maxIdx] = true;
-                change++;
+
             }
-            change--;
+
+
+
         }
         return nums;
     }
@@ -92,3 +101,11 @@ public class Solution {
         return same;
     }
 }
+
+/*
+3
+123 1
+2737 1
+32888 2
+
+ */
