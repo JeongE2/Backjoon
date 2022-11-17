@@ -23,7 +23,7 @@ public class Solution {
         }
     }
 
-    static void queen(int x, int y,int N){ //N개의 queen을 인덱스[x][y] 부터 가능한 부분에 배치한다.
+    static void queen(int x, int y,int N){ //N개의 queen을 인덱스[x][y] 부터 가능한 부분에 배치한다
         //배치 가능 확인
             //가능 배치, N--, 다음 자리로 queen 호출
                 //원상 복구 하고 다음 인덱스로
