@@ -2,9 +2,13 @@ package SWEA.P1859;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Solution {
+
+    static boolean[][] board;
+    static int N, result;
     public static void main(String[] args) throws FileNotFoundException {
         System.setIn(new FileInputStream("src/SWEA/P1859/input.txt"));
         Scanner sc = new Scanner(System.in);
@@ -12,83 +16,45 @@ public class Solution {
         T = sc.nextInt();
 
         for (int test_case = 1; test_case <= T; test_case++) {
-            int[] result;
-            String num = sc.next();
-            int change = sc.nextInt();
-            result = getMaxMoney(num,change);
-
-            System.out.print("#"+test_case+" ");
-            for (int i = 0; i < num.length(); i++) {
-                System.out.print(result[i]);
-            }
-            System.out.println();
+            N = sc.nextInt();
+            board = new boolean[N][N];
+            queen(0,0,N);
+            System.out.println("#"+test_case+" "+result);
         }
     }
 
-    static int[] getMaxMoney(String num, int change){
-        int[] nums = new int[num.length()];
-        boolean[] check = new boolean[num.length()];
-        for (int j = 0; j < num.length(); j++) {
-            nums[j] = num.charAt(j)-'0';
+    static void queen(int x, int y,int N){ //N개의 queen을 인덱스[x][y] 부터 가능한 부분에 배치한다.
+        //배치 가능 확인
+            //가능 배치, N--, 다음 자리로 queen 호출
+                //원상 복구 하고 다음 인덱스로
+            //불가능 다음 인덱스
+        for (int i = x; i < N; i++) {
+            for (int j = y; j < N; j++) {
+                if(check(i,j)){
+
+                }
+            }
         }
-
-        while(change!=0){
-            int max=-1, maxIdx=-1;
-            for (int i = 0; i < num.length(); i++) {
-                if(check[i] == true) continue;
-                if(max< nums[i]){
-                    max = nums[i];
-                    maxIdx = i;
-                }
-            }
-            int changeIdx = 7;
-            for (int i = 0; i < num.length(); i++) {
-                if(check[i] == false) {
-                    changeIdx = i;
-                    break;
-                }
-            }
-
-            if(changeIdx<maxIdx){
-                change(maxIdx,changeIdx, nums);
-                check[changeIdx] = true;
-            } else if(maxIdx == nums.length-1){
-                //같은 수 두개 찾아보기
-                int[] same = findSame(nums);
-                if(same[0]==-1){
-                    change(maxIdx, maxIdx-1, nums);
-                    check[maxIdx-1] = false;
-                }
-                else{
-                    change(same[0],same[1], nums);
-                }
-
-            } else{
-                check[maxIdx] = true;
-                change++;
-            }
-            change--;
-        }
-        return nums;
     }
 
-    static void change(int i,int j, int[] nums){
-        int tmp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = tmp;
-    }
-
-    static int[] findSame(int[] nums){
-        int[] same = {-1,-1};
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i+1; j < nums.length; j++) {
-                if(nums[i]==nums[j]){
-                    same[0] = i;
-                    same[1] = j;
-                }
-            }
+    static boolean check(int i, int j){
+        //가로
+        for (int k = 0; k < N; k++) {
+            if(board[i][k] == true) return false;
         }
+        //세로
+        for (int k = 0; k < N; k++) {
+            if(board[k][j] == true) return false;
+        }
+        //대각선
+            //왼쪽 위부터??
+        for (int k = -(N-1); k < N; k++) {
+            if(k)
+        }
+            //오른쪽 위부터
+        for (int k = 0; k < N; k++) {
 
-        return same;
+        }
+        return true;
     }
 }
